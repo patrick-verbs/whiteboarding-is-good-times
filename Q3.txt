@@ -1,0 +1,107 @@
+Question #3: Compressing Strings
+Write an algorithm that takes a string with repeated characters and compresses them, using a number to show how many times the repeated character has been compressed. For instance, aaa would be written as 3a. Solve the problem with and without recursion.
+
+Example
+Input: "aaabccdddda"
+
+Output: "3ab2c4da"
+
+***********
+///////////
+// Solution 2 - Using Recursion
+// The prompt has several stipulations that I will treat as "rules" to program.
+// 1) Count all *consecutive* instances of a character (*not* explained in the prompt, but implicit from the example's handling of the "a" character)
+// 2) Is there is more than one consecutive instance...
+//   a) ...remove the remaining instances
+//   b) ...prepend the counted number of instances (an integer) before the single remaining instance
+// I feel the best approach to this, for me, will be to start a recursive callback at two different points:
+// - when a repeated character is detected
+// - when an alternate character is detected
+// In the first case, we want to be keeping a count going so that we can have e.g. "3" prepended if 3 consecutive "a" characters are detected
+// In the second case, we want to finalize the output as e.g. "3a"
+// I'll start by scaffolding my function with a base case
+
+function compressString(inputString) {
+  // BASE CASE
+  if (inputString.length === 1) {
+    return inputString;
+  }
+}
+
+// I'm going to run into a problem with this base case, however, when it represents a repeated character -- e.g., if the last character is "a" and so were the two previous characters, I don't want to return "a" but instead "3a". What this means for now is that I will declare a variable to represent the first (and eventually last) character at the start of the function, and use this variable in my base case.
+
+function compressString(inputString) {
+  const firstChar = inputString.charAt(0);
+
+  // BASE CASE
+  if (inputString.length === 1) {
+    return firstChar;
+  }
+}
+
+// Now that I have my "safety net," I'm going to implement a recursive callback.
+
+function compressString(inputString) {
+  const firstChar = inputString.charAt(0);
+
+  // BASE CASE
+  if (inputString.length === 1) {
+    return firstChar;
+  }
+
+  // RECURSIVE CASE
+  const unparsedString = inputString.substring(1);
+  if (firstChar === inputString.charAt(1)) {
+    return firstChar + compressString(unparsedString);
+  }
+}
+
+// In the above, I'm really only returning something if a repeated character is detected -- and my return statement isn't doing anything other than recreating the string with the first repeated character only.
+// What I now realize is I want to try having TWO recursive cases. The first one, using my current if-statement, will handle counting repeated characters. The second one, using a variation of my return-statement, will be for the final output.
+
+function compressString(inputString) {
+  const firstChar = inputString.charAt(0);
+
+  // BASE CASE
+  if (inputString.length === 1) {
+    return firstChar;
+  }
+
+  // RECURSIVE CASE #1 - Count Consecutive Repeated Chars
+  const unparsedString = inputString.substring(1);
+  if (firstChar === inputString.charAt(1)) {
+    return 2 + compressString(unparsedString);
+  }
+
+  // RECURSIVE CASE #2 - Build Final String
+  if (firstChar != inputString.charAt(1)) {
+    return firstChar + compressString(unparsedString);
+  }
+}
+
+// ...however, now that I see the code for Recursive Case #1, I know I have a big problem: this return-statement is a dead end. When I eventually hit my base case, and start tunneling out of my call stack, I'll hit this first "return 2" and get an integer as my function's final output; it'll never reach Recursive Case #2!
+// My problem is that I'm not thinking in terms of recursion. I can't track another variable (the counter) unless I include it as a 2nd argument, in addition to the string, and pass it into the next call to the function. This doesn't feel like it's within the spirit of the prompt, though, so I'm going to factor out Recursive Case #1 and handle this differently -- with a while-loop.
+
+function compressString(inputString) {
+  const firstChar = inputString.charAt(0);
+
+  // BASE CASE
+  if (inputString.length === 1) {
+    return firstChar;
+  }
+
+  // RECURSIVE CASE
+  let counter = 1;
+  while (firstChar === inputString.charAt(counter)) {
+    counter++;
+  }
+
+  // Using 'counter' begins the substring at the first non-repeated character
+  const unparsedString = inputString.substring(counter);
+  if (counter === 1) {
+    // This "hides" the integer from the output string if it's a "1"
+    counter = "";
+  }
+  return counter + firstChar + compressString(unparsedString);
+}
+
