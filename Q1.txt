@@ -1,0 +1,95 @@
+// This is fairly straightforward: the input -- i.e., the argument -- is a string (which may contain spaces), and the output -- i.e., what the function returns -- is the *same* string with '%20' in place of any spaces
+
+// Foolish assumptions:
+// 1) Only a string will be argued, so I won't have to write handling for invalid data such as integers, booleans, etc.
+// 2) I do not have to concatenate/condense multiple consecutive spaces into a single space. That is, if the input string contains multiple spaces in a row, my output string will have multiple '%20' in a row, as I'll assume it's beyond the scope of my job to mutate the user's desired string.
+
+***********
+///////////
+// Solution 1 - Without Recursion
+// Plan:
+// 1) Create an array of characters from the input string using the '.split("")' method
+// 2) Loop through the array one element (and therefore one *character*) at a time
+//   a) If the character is *not* a space, do nothing
+//   b) If the character *is* a space, replace it with the string '%20'
+// 3) Create a string from the completed array using the '.join("")' method (specifying the empty string "" to avoid having the array's commas in the finished string!).
+// 4) Return the finished string
+
+// First, I'll scaffold my function with the two things I know I'll need: the input string (parameter) and the output string (return statement)
+
+function formatStringToUrl(inputString) {
+  return outputString;
+}
+
+// Next, I'll define my array using the .split method from Step 1.
+// And clearly, I'll need to declare 'outputString' before returning it, so I'll add that declaration below.
+
+function formatStringToUrl(inputString) {
+  const splitString = inputString.split("");
+
+  const outputString = "PLACEHOLDER TEXT";
+  return outputString;
+}
+
+// Now it's time for my Step 2 logic. To look at each element (containing a character) in the array I'll need to loop through it one index at a time.
+
+function formatStringToUrl(inputString) {
+  const splitString = inputString.split("");
+
+  for (let i = 0; i < splitString.length; i++) {
+    // Look at each character using splitString[i]
+  }
+
+  const outputString = "PLACEHOLDER TEXT";
+  return outputString;
+}
+
+// For Step 2a, I don't actually need an 'if' branch, because it's doing *nothing* -- it's not altering the array element. I wouldn't have any code to write under that branch!
+// Instead, I'll write an 'if' statement to handle Step 2b, inside which I'll code instructions for replacing the space character with '%20' -- and if that character is not a space, the loop will simply continue on.
+
+function formatStringToUrl(inputString) {
+  const splitString = inputString.split("");
+
+  for (let i = 0; i < splitString.length; i++) {
+    // Look at each character using splitString[i]
+    if (splitString[i] === " ") {
+      splitString[i] = "%20";
+    }
+  }
+
+  const outputString = "PLACEHOLDER TEXT";
+  return outputString;
+}
+
+// Finally, I'll convert this processed array into a string per Step 3. This will actually go in my 'const outputString = ' declaration. The 'return' statement from Step 4 is already written, and this should complete the solution.
+
+function formatStringToUrl(inputString) {
+  const splitString = inputString.split("");
+
+  for (let i = 0; i < splitString.length; i++) {
+    // Look at each character using splitString[i]
+    if (splitString[i] === " ") {
+      splitString[i] = "%20";
+    }
+  }
+
+  const outputString = splitString.join("");
+  return outputString;
+}
+///////////
+***********
+
+
+
+
+
+
+Question #1: Turning Strings to URLs
+URLs cannot have spaces. Instead, all spaces in a string are replaced with %20. Write an algorithm that replaces all spaces in a string with %20.
+
+You may not use the replace() method or regular expressions to solve this problem. Solve the problem with and without recursion.
+
+Example
+Input: "Jasmine Ann Jones"
+
+Output: "Jasmine%20Ann%20Jones"
