@@ -1,0 +1,37 @@
+Question #5: Array Sorting
+Write an algorithm that sorts an array without using the sort() method. There are many different sorting algorithms - take the time to read about the following:
+
+Quick sort
+Merge sort
+Heap sort
+Insertion sort
+Bubble sort
+Selection sort
+You may implement any of the above algorithms (or your own) to solve the problem - as long as it doesn't use sort().
+
+Example
+Input: [9, 2, 7, 12]
+
+Output: [2, 7, 9, 12]
+
+***********
+///////////
+// Solution
+// I'd like the challenge of coming up with my own solution to this prompt prior to reading about the listed algorithms -- maybe I'll use one of those methods without even knowing it!
+// My solution will loop through each element in the input array and insert it into a new output array.
+// To find the correct (sorted) position in the output array, it will need to *also* loop through each element in the output array and detect whether that element is greater than the value being inserted.
+// Finally, if the current value of the output array (in the 2nd loop) is great, I'll need to use the .slice() method to actually insert this value, before proceeding with the remaining elements in the input array (the 1st loop).
+
+function sortArrayOfNums(inputArray) {
+  const outputArray = [];
+
+  for (let i = 0; i < inputArray.length; i++) {
+    const thisNum = inputArray[i];
+    for (let j = 0; j < outputArray.length; j++) {
+      if (thisNum <= outputArray[j]) {
+
+      }
+    }
+  }
+  return outputArray;
+}
